@@ -1,0 +1,190 @@
+package LinkedList;
+
+public class SinglyLinkedList<E> {
+  //Initializes the head of the Singly linked list.
+	private Node<E> head = null;
+	
+	/*
+	 * the number of nodes in the list.
+	 */
+	private int size;
+	/*
+	 * Insert a Node to the front of the list.
+	 */
+	public void addFirst(E Item){// E item = object item where it is equal to any data type.
+		this.head = new Node<E>(Item,this.head); //replaces the head with a new Node(new Data)
+		this.size++;//adds the new node to determine the number of nodes in the list.
+	}
+	/*
+	 * Insert a new Node after a Node in the list
+	 */
+	private void addAfter(Node<E> node,E Item){//to get the node use the getNode method and add a new node after it
+		node.next = new Node<E>(Item, node.next);//Initializes a new node after a node
+		this.size++;//adds the new node to determine the number of nodes in the list.
+	}
+	/*
+	 * Deleting a given node after a node in the list
+	 */
+	private E removeAfter(Node<E> node)
+	{
+		Node<E> tempoNode = node.next;//Initializes that tempoNode is = null
+		if(tempoNode != null)//
+		{
+			node.next = tempoNode.next;
+			this.size--;
+			return tempoNode.data;
+		}
+		else//nothing happens if the node is empty 
+		{
+			return null;
+		}
+		
+	}
+	/*
+	 * Deleting a given node before a node in the list
+	 */
+	private E removefirst()
+	{
+		Node<E> tempoNode = head;
+		if(head != null){
+			head = head.next;			
+		}
+		//returns data at old head and null if list is empty.
+		if(tempoNode != null){
+			this.size--;
+			return tempoNode.data;
+		}
+		else{
+			return null;
+		}
+	}
+	/*
+	 * 1) the first reference is the first node
+	 * 2) while reference to node is not null
+	 * 		3)do something with node being referenced
+	 * 		4)set reference to reference.next
+	 */
+	@Override
+	public String toString(){
+		Node<E> nodeReference = this.head;
+		StringBuilder result = new StringBuilder();
+		
+		while(nodeReference != null)
+		{
+			result.append(nodeReference.data);
+			if(nodeReference.next != null){
+				result.append(" ---> ");
+			}
+			nodeReference = nodeReference.next;
+		}
+		return result.toString();
+	}
+	/*
+	 * set the data value at index
+	 * @param index
+	 * @param new value
+	 * @return the data value at previously at index
+	 */
+	public E set(int index,E newValue){
+		if(index < 0 || index >= size){
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		Node<E> node = getNode(index);
+		E result = node.data;
+		node.data = newValue;
+		return result;
+	}
+	/*
+	 * get the data value at index
+	 * @param index the position of the element to return
+	 * @return the data at index
+	 */
+	public E get(int index){
+		if(index < 0 || index >= size){
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		Node<E> node = getNode(index);
+		return node.data;
+	}
+	/*
+	 * Insert an Item at Specified index
+	 */
+	public void add(int index, E item){
+		if(index < 0 || index > size){
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		if(index == 0){
+			this.addFirst(item);
+		}
+		else{
+			Node<E> node = getNode(index - 1);
+			this.addAfter(node, item);
+		}
+	}
+	public void remove(E item){
+		try{
+			
+			for(int x = 0 ;x < size ;x++){
+				Node<E> node = getNode(x);
+				if(item == node.data){
+					this.removeAfter(node);
+					this.size--;
+				}
+			}
+			
+			
+		}catch(Exception e){
+			
+		}
+	}
+	/*
+	 * Insert an Item to the last or first if list is empty
+	 */
+	public boolean add(E item){
+		this.add(this.size, item);
+		return true;
+	}
+	/*
+	 * find the node at a specified position
+	 * @param index the position of the node to return
+	 * @return the node at index or null if it does not exist
+	 */
+	private Node<E> getNode(int index){
+		Node<E> node = this.head;
+		for(int x = 0 ;x < index && node != null;x++){
+			node = node.next;
+		}
+		return node;
+	}
+	
+	/*
+	 * A Node is the Building block of a Singly Linked List.
+	 */
+	private static class Node<E>{
+		
+		//Data Field
+		private E data;
+		private Node<E> next;
+		//Constructor
+		private Node(E data){//Determines that data = data and next is the link and always null
+			this.data = data;
+			this.next = null;
+		}
+		private Node(E data,Node<E> NodeReference){//Determines that a node is linked to a another node in a linear sequence
+			this.data = data;
+			this.next = NodeReference;
+		}	
+		
+		
+	}
+	public static void main(String[] args){		
+		
+		
+		
+		SinglyLinkedList asa = new SinglyLinkedList();
+		
+		
+	}		
+	
+	
+}
